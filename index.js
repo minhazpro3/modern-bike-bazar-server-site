@@ -20,6 +20,10 @@ async function run () {
     const allOrdersCollection = database.collection("allOrdersCollect");
     const allReviewCollection = database.collection("ReviewAll");
     const allUserCollection = database.collection("savedUsers");
+    console.log('database connected');
+
+
+
 
 
 
@@ -35,6 +39,17 @@ async function run () {
         const result = await allMotorcycleCollection.find({}).toArray()
         res.send(result)
     })
+
+  // admin checked
+  app.get('/checkedAdmin/:email', async (req,res)=>{
+    const corsure = allUserCollection.find({ email: req.params.email })
+    const result = await corsure.toArray()
+    res.json(result)
+    
+})
+
+
+
 
     // get single products
     app.get('/singleProducts/:id', async (req,res)=>{
@@ -147,14 +162,8 @@ async function run () {
             
         }
 
-        // admin confirm
-        app.get('/adminConform/:email', async (req,res)=>{
-            const result = await allUserCollection
-            .find({ email: req.params.email})
-            .toArray();
-            res.json(result)
-            console.log(result);
-        })
+      
+      
 
         
     })
