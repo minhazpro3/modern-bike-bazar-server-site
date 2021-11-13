@@ -20,7 +20,7 @@ async function run () {
     const allOrdersCollection = database.collection("allOrdersCollect");
     const allReviewCollection = database.collection("ReviewAll");
     const allUserCollection = database.collection("savedUsers");
-    console.log('database connected');
+    console.log('database connected successfully');
 
 
 
