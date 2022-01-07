@@ -49,12 +49,7 @@ async function run () {
 
 
 
-    // add products 
-    // app.post('/addProducts', async (req,res)=>{
-    //     const products = req.body;
-    //     const result = await allMotorcycleCollection.insertOne(products);
-    //     res.send(result)
-    // })
+    
 
     // get products 
     app.get('/getProducts', async (req,res)=>{
