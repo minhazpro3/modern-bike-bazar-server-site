@@ -2,11 +2,13 @@ const express = require('express')
 const app = express();
 app.use(express.json());
 const cors = require('cors');
-app.use(cors());
-require('dotenv').config();
+const fileUpload= require('express-fileupload');
 const { MongoClient } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 const port = process.env.PORT || 5000;
+app.use(cors());
+require('dotenv').config();
+app.use(fileUpload())
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.z45ex.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -23,16 +25,36 @@ async function run () {
     console.log('database connected successfully');
 
 
-
+        // add product
+    app.post('/addBike', async (req,res)=>{
+        const title= req.body.title;
+        const regularPrice = req.body.regularPrice;
+        const offerPrice = req.body.offerPrice;
+        const description = req.body.description;
+        const picture = req.files.image;
+        const pictureData = picture.data;
+        const encodedPicture = pictureData.toString('base64')
+        const imageBuffer = Buffer.from(encodedPicture, 'base64')
+        const product = {
+            regularPrice,
+            offerPrice,
+            title,
+            description,
+            image: imageBuffer
+        }
+        const result = await allMotorcycleCollection.insertOne(product)
+        
+        res.send(result)
+    })
 
 
 
     // add products 
-    app.post('/addProducts', async (req,res)=>{
-        const products = req.body;
-        const result = await allMotorcycleCollection.insertOne(products);
-        res.send(result)
-    })
+    // app.post('/addProducts', async (req,res)=>{
+    //     const products = req.body;
+    //     const result = await allMotorcycleCollection.insertOne(products);
+    //     res.send(result)
+    // })
 
     // get products 
     app.get('/getProducts', async (req,res)=>{
