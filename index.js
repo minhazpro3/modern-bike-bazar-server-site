@@ -197,7 +197,7 @@ app.get('/', (req,res)=>{
 })
 
 app.listen(port, ()=>{
-    console.log('HEY connected database', port);
+    console.log('HEY connected databas', port);
 })
 
 
