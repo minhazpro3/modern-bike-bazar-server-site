@@ -193,7 +193,7 @@ async function run () {
 run().catch(console.dir);
 
 app.get('/', (req,res)=>{
-    res.send('Database connected successfully!!!')
+    res.send('Database connected successful!!!')
 })
 
 app.listen(port, ()=>{
