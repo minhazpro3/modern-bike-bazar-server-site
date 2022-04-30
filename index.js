@@ -27,22 +27,8 @@ async function run () {
 
         // add product
     app.post('/addBike', async (req,res)=>{
-        const title= req.body.title;
-        const regularPrice = req.body.regularPrice;
-        const offerPrice = req.body.offerPrice;
-        const description = req.body.description;
-        const picture = req.files.image;
-        const pictureData = picture.data;
-        const encodedPicture = pictureData.toString('base64')
-        const imageBuffer = Buffer.from(encodedPicture, 'base64')
-        const product = {
-            regularPrice,
-            offerPrice,
-            title,
-            description,
-            image: imageBuffer
-        }
-        const result = await allMotorcycleCollection.insertOne(product)
+       const addData = req.body
+        const result = await allMotorcycleCollection.insertOne(addData)
         
         res.send(result)
     })
