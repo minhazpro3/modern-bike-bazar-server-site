@@ -35,6 +35,7 @@ async function run () {
 
 
 
+      
     
 
     // get products 
@@ -72,21 +73,32 @@ async function run () {
     })
 
 
+
+
     // get my orders
     app.get('/myOrder/:email', async (req,res)=>{
         const result = await allOrdersCollection
       .find({ email: req.params.email })
       .toArray();
-      res.json(result)
-        
-
+      res.json(result)  
+      console.log(result)
     })
+
 
     // delete my order
     app.delete('/deleteOrder/:id', async (req,res)=>{
         const id = req.params.id;
         const query = {_id: ObjectId(id)}
+        console.log(query);
         const result = await allOrdersCollection.deleteOne(query);
+        res.send(result);
+    })
+
+    // pay product of single
+    app.get('/getPay/:id', async (req,res)=>{
+        const id = req.params.id;
+        const query = {_id: ObjectId(id)}
+        const result = await allOrdersCollection.findOne(query)
         res.send(result);
     })
 
@@ -151,6 +163,8 @@ async function run () {
         res.send(result)
     })
 
+
+
     // make admin
     app.put("/madeAdmin", async (req,res)=>{
         const filter = {email: req.body.email}
@@ -165,6 +179,10 @@ async function run () {
             
         }
 
+      
+
+       
+        
       
       
 
