@@ -18,7 +18,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run () {
     try{
         await client.connect();
-        const database = client.db("motorcycleQuotes");
+    const database = client.db("motorcycleQuotes");
     const allMotorcycleCollection = database.collection("allMotorcycle");
     const allOrdersCollection = database.collection("allOrdersCollect");
     const allReviewCollection = database.collection("ReviewAll");
@@ -27,17 +27,13 @@ async function run () {
 
 
         // add product
-    app.post('/addBike', async (req,res)=>{
-       const addData = req.body
+        app.post('/addBike', async (req,res)=>{
+        const addData = req.body
         const result = await allMotorcycleCollection.insertOne(addData)
         
         res.send(result)
     })
 
-
-
-      
-    
 
     // get products 
     app.get('/getProducts', async (req,res)=>{
@@ -45,15 +41,12 @@ async function run () {
         res.send(result)
     })
 
-  // admin checked
-  app.get('/checkedAdmin/:email', async (req,res)=>{
+    // admin checked
+    app.get('/checkedAdmin/:email', async (req,res)=>{
     const corsure = allUserCollection.find({ email: req.params.email })
     const result = await corsure.toArray()
     res.json(result)
-    
-})
-
-
+    })
 
 
     // get single products
@@ -70,7 +63,6 @@ async function run () {
         const allOrders = req.body;
         const result = await allOrdersCollection.insertOne(allOrders)
         res.send(result);
-       
     })
 
 
@@ -79,10 +71,10 @@ async function run () {
     // get my orders
     app.get('/myOrder/:email', async (req,res)=>{
         const result = await allOrdersCollection
-      .find({ email: req.params.email })
-      .toArray();
-      res.json(result)  
-      console.log(result)
+       .find({ email: req.params.email })
+       .toArray();
+       res.json(result)  
+       
     })
 
 
@@ -103,8 +95,6 @@ async function run () {
         res.send(result);
     })
 
-     // create-payment-intent
-    
 
     // customer review post
     app.post('/allReview', async (req,res)=>{
