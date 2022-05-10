@@ -104,27 +104,7 @@ async function run () {
     })
 
      // create-payment-intent
-     app.post('/create-checkout-session', async (req, res) => {
-        const session = await stripe.checkout.sessions.create({
-          line_items: [
-            {
-              price_data: {
-                currency: 'usd',
-                product_data: {
-                  name: 'T-shirt',
-                },
-                unit_amount: 2000,
-              },
-              quantity: 1,
-            },
-          ],
-          mode: 'payment',
-          success_url: `${process.env.CLIENT_URL}/`,
-          cancel_url: `${process.env.CLIENT_URL}/`,
-        });
-      
-        res.send({url: session.url});
-      });
+    
 
     // customer review post
     app.post('/allReview', async (req,res)=>{
@@ -202,6 +182,20 @@ async function run () {
             res.send(update)
             
         }})
+
+
+        // update payment status
+        app.put('/paymentStatus/:id', async (req,res)=>{
+            const query = {_id:ObjectId(req.params.id)}
+            const result = await allOrdersCollection.find(query).toArray()
+            if(result){
+                const update = await allOrdersCollection.updateOne(query,{
+                    $set:{
+                        payment: "Paid"
+                    }
+                })
+                res.send(update)
+            }})
 
        
 
