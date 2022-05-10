@@ -7,6 +7,7 @@ const { MongoClient } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 const port = process.env.PORT || 5000;
 app.use(cors());
+const stripe=require('stripe')(process.env.STRIPE_SECRETE)
 require('dotenv').config();
 app.use(fileUpload())
 
@@ -102,6 +103,29 @@ async function run () {
         res.send(result);
     })
 
+     // create-payment-intent
+     app.post('/create-checkout-session', async (req, res) => {
+        const session = await stripe.checkout.sessions.create({
+          line_items: [
+            {
+              price_data: {
+                currency: 'usd',
+                product_data: {
+                  name: 'T-shirt',
+                },
+                unit_amount: 2000,
+              },
+              quantity: 1,
+            },
+          ],
+          mode: 'payment',
+          success_url: `${process.env.CLIENT_URL}/`,
+          cancel_url: `${process.env.CLIENT_URL}/`,
+        });
+      
+        res.send({url: session.url});
+      });
+
     // customer review post
     app.post('/allReview', async (req,res)=>{
         const reviews = req.body;
@@ -177,17 +201,9 @@ async function run () {
             })
             res.send(update)
             
-        }
-
-      
+        }})
 
        
-        
-      
-      
-
-        
-    })
 
     }
     finally {
